@@ -39,5 +39,5 @@ async def ticket_close(message,*,code):
     else :
         await message.send("**You entered the wrong code (it is the number in the channel topic!)**") 
 
-client.run("ODY3MzcwMDI1MzI4MzEyMzUw.YPgHSA.qogqBnIl3h3Sf-PxLQ4jDJNQI0M")
+client.run("token")
 
