@@ -24,7 +24,7 @@ async def open(message,*,issue):
         guild.me: discord.PermissionOverwrite(read_messages=True)
     }
     code = random.randrange(10 , 100000)
-    channel = await guild.create_text_channel(f'{message.author.name}', overwrites=overwrites, topic=f"{code} | {issue}")
+    channel = await guild.create_text_channel(f'{message.author.name}{code}', overwrites=overwrites, topic=f"{code} | {issue}")
     
     await channel.send("test123")
 
@@ -39,5 +39,5 @@ async def ticket_close(message,*,code):
     else :
         await message.send("**You entered the wrong code (it is the number in the channel topic!)**") 
 
-client.run("token")
+client.run("ODY3MzcwMDI1MzI4MzEyMzUw.YPgHSA.rEpvSueGp0ezqTS39a2_anyeZKY")
 
