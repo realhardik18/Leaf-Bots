@@ -10,7 +10,7 @@ client.remove_command('help')
 @client.event
 async def on_ready():
   print("im alive and working!!(logged in as {0.user})".format(client))
-  await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="For *help"))
+  await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="For ;help"))
 
 @client.command()
 async def test(message):
@@ -18,28 +18,25 @@ async def test(message):
 
 @client.command()
 async def open(message,*,issue):
-    await message.send("a private ticket channel has been created and you have been pinged! please check your pings")
-    guild = message.guild
-    await guild.create_role(name=message.author.name)
-    member=message.author
-    role = discord.utils.get(member.guild.roles, name=message.author.name)
-    await member.add_roles(role)
-    overwrites = {
-        guild.default_role: discord.PermissionOverwrite(read_messages=False),
-        guild.me: discord.PermissionOverwrite(read_messages=True)
-    }
-    code = random.randrange(10 , 100000)
-    channel = await guild.create_text_channel(f'{message.author.name}{code}', overwrites=overwrites, topic=f"{code} | {issue}")
-    await channel.send("test123")
+  await message.send("a private ticket channel has been created and you have been pinged! please check your pings")
+  guild = message.guild
+  overwrites = {
+      guild.default_role: discord.PermissionOverwrite(read_messages=False),
+      guild.me: discord.PermissionOverwrite(read_messages=True)
+  }
+  code = random.randrange(100 , 999)
+  channel = await guild.create_text_channel(f'{message.author.name}{code}', overwrites=overwrites, topic=f"{code} | {issue}")
+  await channel.set_permissions(message.author, read_messages=True,send_messages=True)                              
+  await channel.send(f"created ticket for {message.author.mention}!")
 
 @client.command()
-async def ticket_close(message,*,code): 
-  if message.channel.topic==code:        
+async def close(message,*,code): 
+  if message.channel.topic[0:3]==code:        
     await message.send("Thank you! This channel will be deleted in `5s`")
     await asyncio.sleep(5)
     await message.channel.delete()
   else :
-    await message.send("**You entered the wrong code (it is the number in the channel topic!)**") 
+    await message.send("You entered the wrong code (it is the number in the channel topic!)") 
 
-client.run("token")
+client.run("token here")
 
