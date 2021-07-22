@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 import random
 import asyncio
+from discord.message import Message
 
 client = commands.Bot(command_prefix=";")
 client.remove_command('help')
@@ -19,25 +20,26 @@ async def test(message):
 async def open(message,*,issue):
     await message.send("a private ticket channel has been created and you have been pinged! please check your pings")
     guild = message.guild
+    await guild.create_role(name=message.author.name)
+    member=message.author
+    role = discord.utils.get(member.guild.roles, name=message.author.name)
+    await member.add_roles(role)
     overwrites = {
         guild.default_role: discord.PermissionOverwrite(read_messages=False),
         guild.me: discord.PermissionOverwrite(read_messages=True)
     }
     code = random.randrange(10 , 100000)
     channel = await guild.create_text_channel(f'{message.author.name}{code}', overwrites=overwrites, topic=f"{code} | {issue}")
-    
     await channel.send("test123")
 
 @client.command()
 async def ticket_close(message,*,code): 
-    if message.channel.topic==code:
-        
-        await message.send("Thank you! This channel will be deleted in `5s`")
-        await asyncio.sleep(5)
-        await message.channel.delete()
-    
-    else :
-        await message.send("**You entered the wrong code (it is the number in the channel topic!)**") 
+  if message.channel.topic==code:        
+    await message.send("Thank you! This channel will be deleted in `5s`")
+    await asyncio.sleep(5)
+    await message.channel.delete()
+  else :
+    await message.send("**You entered the wrong code (it is the number in the channel topic!)**") 
 
 client.run("token")
 
