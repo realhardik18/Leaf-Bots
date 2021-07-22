@@ -26,7 +26,7 @@ async def open(message,*,issue):
     code = random.randrange(10 , 100000)
     channel = await guild.create_text_channel(f'{message.author.name}', overwrites=overwrites, topic=f"{code} | {issue}")
     
-    await channel.send("app chutiye ho")
+    await channel.send("test123")
 
 @client.command()
 async def ticket_close(message,*,code): 
